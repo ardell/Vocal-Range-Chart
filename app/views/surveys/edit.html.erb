@@ -1,0 +1,28 @@
+<h1>Editing survey</h1>
+
+<% form_for(@survey) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :group %><br />
+    <%= f.text_field :group %>
+  </p>
+  <p>
+    <%= f.label :owner_hash %><br />
+    <%= f.text_field :owner_hash %>
+  </p>
+  <p>
+    <%= f.label :visitor_hash %><br />
+    <%= f.text_field :visitor_hash %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @survey %> |
+<%= link_to 'Back', surveys_path %>

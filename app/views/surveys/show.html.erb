@@ -1,0 +1,23 @@
+<p>
+  <b>Email:</b>
+  <%=h @survey.email %>
+</p>
+
+<p>
+  <b>Group:</b>
+  <%=h @survey.group %>
+</p>
+
+<p>
+  <b>Owner hash:</b>
+  <%=h @survey.owner_hash %>
+</p>
+
+<p>
+  <b>Visitor hash:</b>
+  <%=h @survey.visitor_hash %>
+</p>
+
+
+<%= link_to 'Edit', edit_survey_path(@survey) %> |
+<%= link_to 'Back', surveys_path %>

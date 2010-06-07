@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  email: MyString
+  group: MyString
+  owner_hash: MyString
+  visitor_hash: MyString
+
+two:
+  email: MyString
+  group: MyString
+  owner_hash: MyString
+  visitor_hash: MyString
