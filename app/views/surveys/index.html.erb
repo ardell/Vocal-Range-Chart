@@ -4,16 +4,12 @@
   <tr>
     <th>Email</th>
     <th>Group</th>
-    <th>Owner hash</th>
-    <th>Visitor hash</th>
   </tr>
 
 <% @surveys.each do |survey| %>
   <tr>
     <td><%=h survey.email %></td>
     <td><%=h survey.group %></td>
-    <td><%=h survey.owner_hash %></td>
-    <td><%=h survey.visitor_hash %></td>
     <td><%= link_to 'Show', survey %></td>
     <td><%= link_to 'Edit', edit_survey_path(survey) %></td>
     <td><%= link_to 'Destroy', survey, :confirm => 'Are you sure?', :method => :delete %></td>

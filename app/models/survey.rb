@@ -17,5 +17,11 @@ class Survey < ActiveRecord::Base
   validates_format_of :visitor_hash,
                       :with => %r{^[0-9a-f]{32}$}i,
                       :message => 'We were unable to create your survey'
+                      
+  before_validation :create_hashes
+  def create_hashes
+    self.owner_hash = Digest::MD5.hexdigest('owner hash salt' + Time.now.to_s)
+    self.visitor_hash = Digest::MD5.hexdigest('visitor hash salt' + Time.now.to_s)
+  end
   
 end
