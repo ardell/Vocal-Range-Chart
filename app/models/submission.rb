@@ -20,7 +20,7 @@ class Submission < ActiveRecord::Base
                         :c_7, :c_sharp_7, :d_7, :d_sharp_7, :e_7, :f_7, :f_sharp_7, :g_7, :g_sharp_7, :a_7, :a_sharp_7, :b_7,
                         :c_8
 
-  before_save :default_values
+  before_validation :default_values
   def default_values
     # Set all default values to 0
     self.a_0 = 0        unless self.a_0
