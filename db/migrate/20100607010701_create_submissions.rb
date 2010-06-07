@@ -1,8 +1,9 @@
 class CreateSubmissions < ActiveRecord::Migration
   def self.up
     create_table :submissions do |t|
-      t.string :name
-      t.string :email
+      t.string :name, :limit => 150
+      t.string :email, :limit => 150
+      t.integer :survey_id, :null => false, :options => "CONSTRAINT fk_survey_submissions REFERENCES surveys(id)"
       t.integer :a_0
       t.integer :a_sharp_0
       t.integer :b_0
