@@ -1,2 +1,298 @@
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+Feature: Create a Survey
+
+
+In order to review my group members' vocal ranges
+As an admin
+I want to create and send a survey
+
+Scenario: Admin creates a survey with success
+
+
+Given I am a visitor
+And I am viewing the home page
+Then I should see a form with the following fields:
+
+Name
+Email
+Group Name
+
+When I fill in "Name" with "Joe Smith"
+And I fill in "Email" with "example@domain.com"
+And I fill in "Group Name" with "Here Comes Treble"
+And I press "Create Survey"
+Then my form data should be saved
+And I should be taken to the Survey Created page
+And I should see an outgoing email to "example@domain.com" with my survey details and links to the survey page, survey admin page, and the published survey results page
+
+
+Scenario: Admin creates a survey with errors
+
+
+Given I am a visitor
+And I am viewing the home page
+Then I should see a form with the following fields:
+
+Name
+Email
+Group Name
+
+And I press "Create Survey"
+Then I should see the message: "Your survey could not be created due to the following errors:
+"Name" field is empty
+"Email" field is empty
+"Group Name" field is empty"
+
+
+Scenario: Admin copies link to survey
+
+
+Given I am an admin
+And I am viewing the Survey Created page
+Then I should see the message "Your Vocal Range Survey for Here Comes Treble has been created."
+And I should see the link to the survey
+And I should see the link to manage the survey
+And I should see the link to the published results
+And I should see the button to send invitations myself
+And I should see the button to send invitations through the system
+
+When I click on "Send Invitations Myself"
+Then I should see the message "..."
+
+When I click on "Send Invitations Through The System"
+Then I should be taken to the Send Survey page
+
+
+
+Scenario: Admin manually adds group member emails
+
+
+Given I am an admin
+And I am viewing the Send Survey page
+Then I should see a form with the following fields:
+
+
+Send invitations to:
+Personal Message
+And I should see a link to add contacts from Yahoo Mail
+And I should see a link to add contacts from GMail
+When I fill in "Send invitations to:" with "example1@domain1.com, example2@domain.com, example3@domain.com"
+And I press "Send Survey"
+Then I should see the message "Your survey invitation has been sent."
+And I should see an outgoing email to example1@domain1.com, example2@domain.com and example3@domain.com with a link to the Survey Page
+
+Scenario: Admin selects group member emails from contacts
+
+
+Given I am an admin
+Then I should see a form with the following fields:
+
+Send invitations to:
+Personal Message
+And I should see a link to add contacts from Yahoo Mail
+And I should see a link to add contacts from GMail
+When I press "Add Contacts from GMail"
+Then I should see a lightbox
+And I should see a form with the following fields:
+Username
+Password
+When I fill in "Username" with "user-name"
+And I fill in "Password" with "password"
+And I press "Login"
+Then I should see a list of my GMail contacts
+And for each contact I should see the name, email, and check box
+
+When I click an unselected check box next to a contact
+Then that contact should be marked selected
+
+When I click a selected check box next to a contact
+Then that contact should be marked unselected
+
+When I click "Add to Invite List"
+Then the lightbox should close
+And the email addresses for all selected contacts should be inserted as a comma separated list into the "Send invitations to:" field
+
+Scenario: Admin sends survey
+
+
+Given I am an admin
+And I am viewing the Send Survey page
+Then I should see a form with the following fields:
+
+Send invitations to:
+Personal Message
+And I should see a link to add contacts from Yahoo Mail
+And I should see a link to add contacts from GMail
+When I fill in "Send invitations to:" with "example1@domain1.com, example2@domain.com, example3@domain.com"
+And I press "Send Survey"
+Then I should see the message "Your survey invitation has been sent."
+And I should see a link to the Survey Admin page
+And I should see an outgoing email to example1@domain1.com, example2@domain.com and example3@domain.com with a link to the Survey Page
+
+
+Feature: Complete Survey
+
+In order to share my vocal range
+As a group member
+I want to complete a survey
+
+
+Scenario: User submits survey with success
+
+
+Given I am a user
+And I am viewing the Survey Page
+Then I should see the survey instructions
+And I should see a form with the following fields:
+
+Name
+Email
+And I should see a chart with a list of music notes
+And for each music note I should see:
+a link to play the note
+radio buttons to rate myself on that note
+And I should see a link to save
+
+When I fill in "Name" with "Joe Smith"
+And I fill in "Email" with "example@domain.com"
+And I select a rating for each note
+And I press "Save"
+Then my survey submission should be saved
+And I should see an outgoing email to the survey administrator with the message "Joe Smith (example@domain.com) has completed your vocal range survey."
+
+Scenario: User plays a note
+
+
+Given I am a user 
+And I am viewing the Survey Page
+When I press "play" next to a note
+Then I should hear the note
+
+Scenario: User submits survey with errors
+
+
+Given I am a user
+And I am viewing the Survey Page
+Then I should see the survey instructions
+And I should see a form with the following fields:
+
+
+Name
+Email
+And I should see a chart with a list of music notes
+And for each music note I should see:
+a link to play the note
+radio buttons to rate myself on that note
+And I should see a link to save
+
+When I press "Save"
+Then I should see the message "Your survey could not be saved due to the following errors:
+"Name" field is empty
+"Email" field is empty
+Not all notes have been rated"
+And I should see all empty fields highlighted
+
+
+
+Feature: View Survey Results
+
+
+In order to review my group's vocal ranges
+As an admin
+I want to view published survey results
+
+
+Scenario: Admin reviews survey results
+
+
+Given I am an admin
+And I am viewing the Survey Admin Page
+Then I should see a chart of all visible survey submissions
+And I for each visible survey submission I should see a link to:
+
+name
+range
+hide
+edit
+remove
+And I should see a list of invisible survey submissions
+And for each invisible survey submission I should see:
+name
+show
+edit
+remove
+And I should see a link to send the survey to additional members
+And I should see a link to share the published survey results
+
+Scenario: Admin shows / hides survey submissions
+
+
+Given I am an admin
+And I am viewing the Survey Admin Page
+
+When I click on "show" next to a survey submission
+Then that survey submission should be set to "visible"
+
+When I click on "hide" next to a survey submission
+Then that survey submission should be set to "invisible"
+
+
+Scenario: Admin deletes survey submissions
+
+
+Given I am an admin
+And I am viewing the Survey Admin Page
+When I click on "remove" next to a survey submission
+Then I should see an alert message "Are you sure you want to remove the survey submission for Joe Smith?"
+
+When I click on "Yes"
+Then that survey submission should be deleted
+
+When I click on "Cancel"
+Then the alert message should be closed
+And no records should be changed
+
+
+Scenario: Admin edits survey submissions
+
+
+Given I am an admin
+And I am viewing the Survey Admin Page
+When I click on "edit" next to a survey submission
+Then I should be taken to the Survey Page
+And I should see a form with the following fields:
+
+
+
+Name
+Email
+And I should see a chart with a list of music notes
+And for each music note I should see:
+a link to play the note
+radio buttons to rate myself on that note
+And I should see a link to save
+
+When I update the content of the fields
+And I press "save"
+Then the survey submission should be updated
+
+
+Scenario: Admin shares the published survey results
+
+
+Given I am an admin
+And I am viewing the Survey Admin Page
+When I click on "Share Published Survey Results"
+Then I should see a lightbox
+And I should see a link to the published survey results
+And I should see a link to share on Twitter
+And I should see a link to share on Facebook
+And I should see a link to email
+
+TBD ...
+
+Scenario: Visitor reviews survey results
+
+
+Given I am a visitor
+And I am viewing the Published Survey Results
+Then I should see a chart of all survey submissions
