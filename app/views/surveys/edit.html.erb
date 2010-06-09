@@ -1,6 +1,6 @@
 <h1>Editing survey</h1>
 
-<% form_for(@survey) do |f| %>
+<% form_for @survey, @survey, :url => "/surveys/update/" + @survey.owner_hash do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -16,5 +16,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', @survey %> |
+<a href="/surveys/show/<%=h @survey.owner_hash %>">Show</a> |
 <%= link_to 'Back', surveys_path %>

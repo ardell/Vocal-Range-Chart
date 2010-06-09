@@ -2,17 +2,17 @@
 
 <table>
   <tr>
-    <th>Email</th>
+    <th>Created</th>
     <th>Group</th>
   </tr>
 
 <% @surveys.each do |survey| %>
   <tr>
-    <td><%=h survey.email %></td>
+    <td><%= time_ago_in_words survey.created_at %> ago</td>
     <td><%=h survey.group %></td>
-    <td><%= link_to 'Show', survey %></td>
-    <td><%= link_to 'Edit', edit_survey_path(survey) %></td>
-    <td><%= link_to 'Destroy', survey, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><a href="/surveys/show/<%=h survey.owner_hash %>">Show</a></td>
+    <td><a href="/surveys/edit/<%=h survey.owner_hash %>">Edit</a></td>
+    <td><%= link_to 'Delete', { :controller => 'surveys', :action => 'destroy', :owner_hash => survey.owner_hash }, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

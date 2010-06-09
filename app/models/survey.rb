@@ -1,5 +1,7 @@
 class Survey < ActiveRecord::Base
   
+  has_many :submissions
+  
   validates_presence_of :email, :group, :owner_hash, :visitor_hash
   validates_uniqueness_of :owner_hash, :visitor_hash
   validates_format_of :email,
@@ -20,8 +22,11 @@ class Survey < ActiveRecord::Base
                       
   before_validation :create_hashes
   def create_hashes
-    self.owner_hash = Digest::MD5.hexdigest('owner hash salt' + Time.now.to_s)
-    self.visitor_hash = Digest::MD5.hexdigest('visitor hash salt' + Time.now.to_s)
+    self.owner_hash = Digest::MD5.hexdigest('owner hash salt' + Time.now.strftime("%Y%m%d%H%M%S")) if self.owner_hash == nil
+    self.visitor_hash = Digest::MD5.hexdigest('visitor hash salt' + Time.now.strftime("%Y%m%d%H%M%S")) if self.visitor_hash == nil
+    
+    # Need to return true so we can continue with validation
+    return true
   end
   
 end

@@ -1,5 +1,7 @@
 class Submission < ActiveRecord::Base
   
+  belongs_to :survey
+  
   validates_presence_of :name, :email
   validates_format_of :email,
                       :with => %r{^.*@.*\..*$}i,

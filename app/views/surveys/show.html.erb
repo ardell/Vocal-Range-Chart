@@ -8,8 +8,16 @@
   <%=h @survey.group %>
 </p>
 
-<p>Take this survey</p>
-<p>Email this survey</p>
+<img src="<%= @chart.to_url %>" />
 
-<%= link_to 'Edit', edit_survey_path(@survey) %> |
+<p>This survey has <%= @survey.submissions.size %> submissions:</p>
+
+<table>
+  <%= render(:partial => 'submission', :collection => @survey.submissions) %>
+</table>
+
+<p><a href="/submissions/new/<%=h @survey.visitor_hash %>">Take this survey</a></p>
+<!-- <p><%= link_to 'Email this survey', { :controller => 'survey', :action => 'email', :visitor_hash => @survey.owner_hash } %></p> -->
+
+<a href="/surveys/edit/<%=h @survey.owner_hash %>">Edit</a> |
 <%= link_to 'Back', surveys_path %>

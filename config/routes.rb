@@ -1,6 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :submissions
-
   map.resources :surveys
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -12,7 +11,14 @@ ActionController::Routing::Routes.draw do |map|
   # Sample of named route:
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
+  map.survey 'surveys/show/:owner_hash', :controller => 'surveys', :action => 'show'
+  map.survey 'surveys/edit/:owner_hash', :controller => 'surveys', :action => 'edit'
+  map.survey 'surveys/update/:owner_hash', :controller => 'surveys', :action => 'update'
+  map.survey 'surveys/destroy/:owner_hash', :controller => 'surveys', :action => 'destroy'
 
+  map.survey 'submissions/new/:visitor_hash', :controller => 'submissions', :action => 'new'
+  map.survey 'submissions/create/:visitor_hash', :controller => 'submissions', :action => 'create'
+  
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   map.resources :products
 
@@ -35,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  # map.root :controller => "welcome"
+  map.root :controller => "surveys"
 
   # See how all your routes lay out with "rake routes"
 
