@@ -76,7 +76,7 @@ class SurveysController < ApplicationController
 
   # GET /surveys/1/edit
   def edit
-    @survey = Survey.find(:first, :conditions => { :owner_hash => params[:owner_hash] })
+    @survey = Survey.find(:first, :conditions => { :owner_hash => params[:id] })
   end
 
   # POST /surveys
@@ -104,7 +104,7 @@ class SurveysController < ApplicationController
     respond_to do |format|
       if @survey.update_attributes(params[:survey])
         flash[:notice] = 'Survey was successfully updated.'
-        format.html { render :action => "show", :owner_hash => @survey.owner_hash }
+        format.html { redirect_to :action => "show", :owner_hash => @survey.owner_hash }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -27,6 +27,8 @@ class SubmissionsController < ApplicationController
   # GET /submissions/new.xml
   def new
     @submission = Submission.new
+    @survey = Survey.find(:first, :conditions => { :visitor_hash => params[:visitor_hash] })
+    @submission.survey = @survey
     @visitor_hash = params[:visitor_hash]
     
     @fields = get_fields

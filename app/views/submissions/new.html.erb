@@ -4,6 +4,12 @@
 </style>
 
 <h1>New submission</h1>
+<h2><%=h @submission.survey.group %></h2>
+
+<p>
+  Send the link to this page to your group members
+  to have them fill out your survey.
+</p>
 
 <% form_for @submission, @submission, :url => "/submissions/" + @visitor_hash + "/create" do |f| %>
   <%= f.error_messages %>
