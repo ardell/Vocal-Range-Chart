@@ -1,7 +1,5 @@
 <h1><%=h @survey.group %></h1>
 
-<p>
-  <img src="<%= @chart.to_url %>" />
-</p>
+<%= render(:partial => 'chart') %>
 
 <%= link_to 'Back', surveys_path %>

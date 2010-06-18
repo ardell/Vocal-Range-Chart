@@ -11,8 +11,10 @@
     <td><%= time_ago_in_words survey.created_at %> ago</td>
     <td><%=h survey.group %></td>
     <td><a href="/surveys/<%=h survey.owner_hash %>/show">Show</a></td>
+    <!-- 
     <td><a href="/surveys/<%=h survey.owner_hash %>/edit">Edit</a></td>
-    <td><%= link_to 'Delete', { :controller => 'surveys', :action => 'destroy', :owner_hash => survey.owner_hash }, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Delete', { :controller => 'surveys', :action => 'destroy', :owner_hash => survey.owner_hash }, :confirm => 'Are you sure?', :method => :delete %></td> 
+    -->
   </tr>
 <% end %>
 </table>

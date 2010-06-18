@@ -16,6 +16,14 @@ class SurveysController < ApplicationController
   def show
     @survey = Survey.find(:first, :conditions => { :owner_hash => params[:owner_hash] })
     
+    @chart = get_chart
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @survey }
+    end
+  end
+  
+  def get_chart
     # Create the google chart
     datasets = []
     colors = [ 'FFFF00', 'FF00FF', '00FFFF', 'FF0000', '00FF00', '0000FF' ]
@@ -46,32 +54,13 @@ class SurveysController < ApplicationController
     @chart.axis = axis
     @chart.labels = labels
     @chart.stripes = stripes
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @survey }
-    end
+    @chart
   end
   
   def view
     @survey = Survey.find(:first, :conditions => { :visitor_hash => params[:visitor_hash] })
     
-    # Create the google chart
-    datasets = []
-    colors = [ 'FFFF00', 'FF00FF', '00FFFF', 'FF0000', '00FF00', '0000FF' ]
-    
-    @fields = get_fields
-    @survey.submissions.each do |submission|
-      submissionData = []
-      @fields.each do |field|
-        submissionData << submission[field[:name]]
-      end
-      datasets << (GoogleChartDataset.new :data => submissionData.reverse, :title => submission.name, :color => colors.pop)
-    end
-    data = GoogleChartData.new :datasets => datasets, :min => 0, :max => 10
-    axis = GoogleChartAxis.new :axis  => [GoogleChartAxis::LEFT, GoogleChartAxis::BOTTOM]
-    @chart = GoogleLineChart.new :width => 400, :height => 300
-    @chart.data = data
-    @chart.axis = axis
+    @chart = get_chart
   end
 
   # GET /surveys/new

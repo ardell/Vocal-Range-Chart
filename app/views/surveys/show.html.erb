@@ -3,7 +3,7 @@
   <%=h @survey.group %>
 </p>
 
-<img src="<%= @chart.to_url %>" />
+<%= render(:partial => 'chart') %>
 
 <p>This survey has <%= @survey.submissions.size %> submissions:</p>
 
@@ -18,5 +18,7 @@
 <p><a href="/submissions/<%=h @survey.visitor_hash %>/new">Take this survey</a></p>
 <!-- <p><%= link_to 'Email this survey', { :controller => 'survey', :action => 'email', :visitor_hash => @survey.owner_hash } %></p> -->
 
+<!--
 <a href="/surveys/<%=h @survey.owner_hash %>/edit">Edit</a> |
+-->
 <%= link_to 'Back', surveys_path %>
