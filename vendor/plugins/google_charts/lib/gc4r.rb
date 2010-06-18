@@ -180,10 +180,36 @@ module GC4R
       'chxl'
     end
     def get_value
-      labels
+      retVal = ""
+      i = 0
+      labels.each do |l|
+        retVal += "#{i}:|" + (expand_multiple l, "|") + "|"
+        i += 1
+      end
+      retVal
     end
     def valid?
       validates labels
+    end
+  end
+  # Striped background fills
+  class ChartStripes < Struct.new :stripes
+    include GoogleChartsObject
+    def get_param
+      'chf'
+    end
+    def get_value
+      retVal = "c,ls,0"
+      allWidths = stripes.collect {|stripe| stripe[:width]}
+      totalWidth = allWidths.inject(0) { |sum,x| sum ? sum+x : x }
+      stripes.each do |stripe|
+        percentWidth = stripe[:width].to_f / totalWidth.to_f
+        retVal += ",#{stripe[:color]},#{percentWidth}"
+      end
+      retVal
+    end
+    def valid?
+      validates stripes
     end
   end
   # title
@@ -245,6 +271,12 @@ module GC4R
       end
       def axis=(a)
         add a
+      end
+      def labels=(l)
+        add l
+      end
+      def stripes=(s)
+        add s
       end
     end
     
@@ -314,7 +346,7 @@ module GC4R
         add ChartData.new(datasets.compact)
         add ChartDataColor.new(colors.compact)
         add ChartDataLegend.new(legend.compact)
-        add ChartDataPieLabels.new(legend.compact)
+        # add ChartDataPieLabels.new(legend.compact)
         add ChartDataScale.new(options[:min], options[:max])
       end
     end
@@ -326,6 +358,18 @@ module GC4R
       TOP = 't'
       def initialize options={}
         add ChartAxis.new options[:axis]
+      end
+    end
+    # labels
+    class GoogleChartAxisLabels < ChartContainer
+      def initialize options={}
+        add ChartAxisLabels.new options[:labels]
+      end
+    end
+    # striped background
+    class GoogleChartStripes < ChartContainer
+      def initialize options={}
+        add ChartStripes.new options[:stripes]
       end
     end
   end

@@ -11,13 +11,14 @@ ActionController::Routing::Routes.draw do |map|
   # Sample of named route:
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
-  map.survey 'surveys/show/:owner_hash', :controller => 'surveys', :action => 'show'
-  map.survey 'surveys/edit/:owner_hash', :controller => 'surveys', :action => 'edit'
-  map.survey 'surveys/update/:owner_hash', :controller => 'surveys', :action => 'update'
-  map.survey 'surveys/destroy/:owner_hash', :controller => 'surveys', :action => 'destroy'
+  map.survey 'surveys/:owner_hash/show', :controller => 'surveys', :action => 'show'
+  map.survey 'surveys/:owner_hash/edit', :controller => 'surveys', :action => 'edit'
+  map.survey 'surveys/:owner_hash/update', :controller => 'surveys', :action => 'update'
+  map.survey 'surveys/:owner_hash/destroy', :controller => 'surveys', :action => 'destroy'
+  map.survey 'surveys/:visitor_hash/view', :controller => 'surveys', :action => 'view'
 
-  map.survey 'submissions/new/:visitor_hash', :controller => 'submissions', :action => 'new'
-  map.survey 'submissions/create/:visitor_hash', :controller => 'submissions', :action => 'create'
+  map.survey 'submissions/:visitor_hash/new', :controller => 'submissions', :action => 'new'
+  map.survey 'submissions/:visitor_hash/create', :controller => 'submissions', :action => 'create'
   
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   map.resources :products

@@ -5,7 +5,7 @@
 
 <h1>New submission</h1>
 
-<% form_for @submission, @submission, :url => "/submissions/create/" + @visitor_hash do |f| %>
+<% form_for @submission, @submission, :url => "/submissions/" + @visitor_hash + "/create" do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -29,7 +29,7 @@
       <tr>
         <td class="<%= field[:color] %>" style="text-align: right"><%= field[:label] %></td>
         <% @ratings.each do |rating| %>
-          <td><%= radio_button_tag field[:name], rating[:value], (@submission[field[:name]] == rating[:value]) %></td>
+          <td><%= radio_button_tag "submission[" + field[:name] + "]", rating[:value], (@submission[field[:name]] == rating[:value]) %></td>
         <% end %>
       </tr>
     <% end %>
